@@ -11,6 +11,10 @@
     <button type="submit" [disabled]="form.invalid">Enviar Notificação</button>
   </form>
 
+  <div *ngIf="errorMessage" class="error-message-global">
+    {{ errorMessage }}
+  </div>
+
   <h2>Notificações Enviadas</h2>
   <div *ngIf="notificacoes.length === 0" class="no-notifications">
     Nenhuma notificação enviada ainda.
@@ -20,7 +24,7 @@
       <div class="notification-item">
         <p><strong>ID:</strong> {{ notificacao.mensagemId }}</p>
         <p><strong>Conteúdo:</strong> {{ notificacao.conteudoMensagem }}</p>
-        <p><strong>Status:</strong> {{ notificacao.status }}</p>
+        <p><strong>Status:</strong> <span [style.color]="notificacao.status === 'PROCESSADO_SUCESSO' ? 'green' : (notificacao.status === 'FALHA_PROCESSAMENTO' ? 'red' : 'orange')">{{ notificacao.status }}</span></p>
       </div>
     </li>
   </ul>

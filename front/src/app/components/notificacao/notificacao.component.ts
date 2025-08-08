@@ -21,12 +21,14 @@ export class NotificacaoComponent implements OnInit {
   });
 
   notificacoes: Notification[] = [];
+  errorMessage: string | null = null;
 
   ngOnInit(): void {
     // Implementar lógica de carregamento inicial ou polling aqui
   }
 
   enviarNotificacao(): void {
+    this.errorMessage = null; // Limpa mensagens de erro anteriores
     if (this.form.valid) {
       const mensagemId = uuidv4();
       const conteudoMensagem = this.form.value.conteudoMensagem!;
@@ -57,9 +59,8 @@ export class NotificacaoComponent implements OnInit {
         },
         error: (error) => {
           console.error('Erro ao enviar notificação', error);
-          // Remover a notificação da lista ou marcar como erro
           this.notificacoes = this.notificacoes.filter(n => n.mensagemId !== mensagemId);
-          alert('Erro ao enviar notificação. Tente novamente.');
+          this.errorMessage = 'Erro ao enviar notificação. Por favor, tente novamente.';
         },
       });
     }
