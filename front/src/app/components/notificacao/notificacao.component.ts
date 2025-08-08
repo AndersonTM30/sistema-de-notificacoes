@@ -43,7 +43,17 @@ export class NotificacaoComponent implements OnInit {
       this.notificacaoService.enviarNotificacao({ mensagemId, conteudoMensagem }).subscribe({
         next: (response) => {
           console.log('Notificação enviada com sucesso', response);
-          // O status será atualizado via polling/websocket posteriormente
+          // Inicia o polling para esta notificação
+          this.notificacaoService.startPolling(mensagemId, novaNotificacao.status).subscribe(updatedStatus => {
+            const index = this.notificacoes.findIndex(n => n.mensagemId === mensagemId);
+            if (index !== -1) {
+              this.notificacoes = [
+                ...this.notificacoes.slice(0, index),
+                { ...this.notificacoes[index], status: updatedStatus },
+                ...this.notificacoes.slice(index + 1)
+              ];
+            }
+          });
         },
         error: (error) => {
           console.error('Erro ao enviar notificação', error);

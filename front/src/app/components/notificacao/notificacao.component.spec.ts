@@ -33,6 +33,12 @@ describe('NotificacaoComponent', () => {
     fixture.detectChanges();
   });
 
+    // Mock uuid.v4 aqui
+    spyOn(uuid, 'v4').and.returnValue('mock-uuid');
+
+    fixture.detectChanges();
+  });
+
   it('deve ser definido', () => {
     expect(component).toBeDefined();
   });
