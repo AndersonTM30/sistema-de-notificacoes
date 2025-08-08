@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>Enviar Nova Notificação</h2>
+  <form [formGroup]="form" (ngSubmit)="enviarNotificacao()">
+    <div class="form-group">
+      <label for="conteudoMensagem">Conteúdo da Mensagem:</label>
+      <textarea id="conteudoMensagem" formControlName="conteudoMensagem" rows="4" required></textarea>
+      <div *ngIf="form.controls['conteudoMensagem'].invalid && form.controls['conteudoMensagem'].touched" class="error-message">
+        O conteúdo da mensagem é obrigatório.
+      </div>
+    </div>
+    <button type="submit" [disabled]="form.invalid">Enviar Notificação</button>
+  </form>
+
+  <h2>Notificações Enviadas</h2>
+  <div *ngIf="notificacoes.length === 0" class="no-notifications">
+    Nenhuma notificação enviada ainda.
+  </div>
+  <ul class="notification-list">
+    <li *ngFor="let notificacao of notificacoes">
+      <div class="notification-item">
+        <p><strong>ID:</strong> {{ notificacao.mensagemId }}</p>
+        <p><strong>Conteúdo:</strong> {{ notificacao.conteudoMensagem }}</p>
+        <p><strong>Status:</strong> {{ notificacao.status }}</p>
+      </div>
+    </li>
+  </ul>
+</div>

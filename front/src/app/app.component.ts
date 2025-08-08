@@ -1,22 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
+import { Component } from '@angular/core';
+import { NotificacaoComponent } from './components/notificacao/notificacao.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `<h1>Testando conexão com a API...</h1>`,
+  imports: [NotificacaoComponent],
+  template: `<app-notificacao></app-notificacao>`,
   styles: [],
 })
 export class AppComponent {
-  private http = inject(HttpClient);
-
-  constructor() {
-    this.http.get(`${environment.apiUrl}/notificacao/status/test-id`).subscribe({
-      next: (res) => console.log('Conexão bem-sucedida!', res),
-      error: (err) => console.error('Erro na conexão:', err),
-    });
-  }
+  title = 'front';
 }
