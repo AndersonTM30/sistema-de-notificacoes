@@ -80,22 +80,69 @@ API_URL=http://localhost:3000/api
 - **RabbitMQ**: 5672 (broker), 15672 (management)
 - **Frontend**: 4200
 
-## Desenvolvimento
+## Executar o Projeto
 
-### Pré-requisitos
-- Node.js 22+
-- Docker e Docker Compose
-- npm ou yarn
+Para executar a aplicação completa (Backend API, RabbitMQ e Frontend), siga os passos abaixo:
 
-### Executar o projeto
+### 1. Configurar Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto (`sistema_de_notificacoes/`) com as seguintes variáveis:
+
+```dotenv
+# Variáveis para o RabbitMQ e API
+RABBITMQ_USER=guest
+RABBITMQ_PASS=guest
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
+RABBITMQ_VHOST=/
+QUEUE_SUFFIX=DEV
+
+# Porta da API (usada pelo Docker)
+PORT=3000
+```
+
+> **Nota:** O `QUEUE_SUFFIX` pode ser alterado para um valor único (ex: seu nome) para evitar conflitos de fila em ambientes compartilhados.
+
+### 2. Iniciar a Infraestrutura (API e RabbitMQ com Docker Compose)
+
+No diretório raiz do projeto (`sistema_de_notificacoes/`), execute o seguinte comando para construir as imagens e iniciar os containers:
+
 ```bash
-# Subir infraestrutura (RabbitMQ + API)
-docker-compose up --build
+docker compose up --build
+```
 
-# Frontend (em outro terminal)
+Este comando irá:
+- Construir a imagem Docker da API.
+- Iniciar o container do RabbitMQ.
+- Iniciar o container da API, que se conectará ao RabbitMQ.
+
+Você pode acessar o painel de gerenciamento do RabbitMQ em `http://localhost:15672` (com as credenciais definidas no `.env`).
+
+### 3. Iniciar o Frontend (Angular)
+
+Em um **novo terminal**, navegue até o diretório do frontend (`front/`) e instale as dependências (se ainda não o fez):
+
+```bash
 cd front
+npm install
+```
+
+Em seguida, inicie o servidor de desenvolvimento do Angular:
+
+```bash
 npm start
 ```
+
+O frontend estará disponível em `http://localhost:4200`.
+
+### 4. Testar a Aplicação
+
+Com a API e o Frontend rodando, você pode:
+- Acessar `http://localhost:4200` no seu navegador.
+- Digitar uma mensagem no formulário e clicar em "Enviar Notificação".
+- Observar a notificação aparecer na lista com o status "AGUARDANDO PROCESSAMENTO" e, em seguida, ser atualizada para "PROCESSADO_SUCESSO" ou "FALHA_PROCESSAMENTO" (devido ao polling).
+- Você também pode verificar os logs dos containers Docker para ver o processamento das mensagens.
+
 
 ### Testes
 ```bash
@@ -110,4 +157,4 @@ npm test
 
 ## Status do Projeto
 
-🚧 **Em desenvolvimento** - Fase de configuração do ambiente
+🚧 **Em desenvolvimento** - Fase de testes de integração
