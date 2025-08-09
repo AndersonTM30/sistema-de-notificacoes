@@ -13,12 +13,12 @@ import { createRabbitMQClientConfig } from '../../config/rabbitmq';
       {
         name: 'NOTIFICATION_ENTRADA',
         useFactory: (configService: ConfigService) => {
-          const queueSuffix = configService.get<string>('QUEUE_SUFFIX', 'ANDERSON');
+          const queueSuffix = configService.get<string>('QUEUE_SUFFIX');
           return {
             transport: Transport.RMQ,
             options: {
               urls: [
-                `amqp://${configService.get<string>('RABBITMQ_USER', 'guest')}:${configService.get<string>('RABBITMQ_PASS', 'guest')}@${configService.get<string>('RABBITMQ_HOST', 'localhost')}:${configService.get<string>('RABBITMQ_PORT', '5672')}${configService.get<string>('RABBITMQ_VHOST', '/')}`
+                `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASS')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<string>('RABBITMQ_PORT')}${configService.get<string>('RABBITMQ_VHOST')}`
               ],
               queue: `fila.notificacao.entrada.${queueSuffix}`,
               queueOptions: {
@@ -37,7 +37,7 @@ import { createRabbitMQClientConfig } from '../../config/rabbitmq';
             transport: Transport.RMQ,
             options: {
               urls: [
-                `amqp://${configService.get<string>('RABBITMQ_USER', 'guest')}:${configService.get<string>('RABBITMQ_PASS', 'guest')}@${configService.get<string>('RABBITMQ_HOST', 'localhost')}:${configService.get<string>('RABBITMQ_PORT', '5672')}${configService.get<string>('RABBITMQ_VHOST', '/')}`
+                `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASS')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<string>('RABBITMQ_PORT')}${configService.get<string>('RABBITMQ_VHOST')}`
               ],
               queue: `fila.notificacao.status.${queueSuffix}`,
               queueOptions: {

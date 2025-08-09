@@ -2,7 +2,7 @@
 FROM node:22-alpine
 
 # Instalar dependências do sistema para compilação nativa
-RUN apk add --no-cache python3 make g++
+RUN apk update && apk add --no-cache python3 build-base
 
 # Criar diretório da aplicação
 WORKDIR /app
@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar dependências
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Copiar código fonte
 COPY . .
